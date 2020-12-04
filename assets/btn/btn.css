@@ -1,0 +1,10 @@
+@import url("./_filled/btn_filled.css");
+@import url("./_upper-case/btn_upper-case.css");
+@import url("./_bold-text/btn_bold-text.css");
+@import url("./_back-hover/btn_back-hover.css");
+
+.btn {
+  padding: 12px 36px;
+  cursor: pointer;
+  border: none;
+}
