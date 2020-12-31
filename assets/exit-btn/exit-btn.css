@@ -1,0 +1,13 @@
+@import url("./__stripe/exit-btn__stripe.css");
+
+.exit-btn {
+  background: none;
+  border: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px;
+  width: 1.5rem;
+  height: 1.5rem;
+}

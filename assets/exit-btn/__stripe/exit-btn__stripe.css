@@ -1,0 +1,9 @@
+@import url("./_first/exit-btn__stripe_first.css");
+@import url("./_second/exit-btn__stripe_second.css");
+
+.exit-btn__stripe {
+  background-color: white;
+  position: absolute;
+  width: calc(100% * var(--root-of-two));
+  height: var(--icon-stripes-height);
+}
