@@ -5,5 +5,5 @@
   background-color: white;
   position: absolute;
   width: calc(100% * var(--root-of-two));
-  height: var(--icon-stripes-height);
+  height: var(--icon-stripes-thickness);
 }
