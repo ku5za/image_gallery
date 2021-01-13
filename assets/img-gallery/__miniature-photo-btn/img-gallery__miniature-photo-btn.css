@@ -1,0 +1,13 @@
+.img-gallery__miniature-photo-btn {
+  border: 1px solid RGBA(0, 0, 0, 0);
+  background: none;
+  cursor: pointer;
+  height: 100%;
+  max-height: 100%;
+
+  transition: border 0.1s ease-in-out;
+}
+
+.img-gallery__miniature-photo-btn:hover {
+  border: 1px solid RGBA(255, 255, 255, 0.5);
+}

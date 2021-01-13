@@ -1,0 +1,8 @@
+.img-gallery__fullsize-photo-container {
+  box-sizing: border-box;
+  padding: 10px;
+
+  height: 100%;
+  max-height: 80%;
+  max-width: 90%;
+}

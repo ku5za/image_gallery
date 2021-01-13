@@ -1,0 +1,18 @@
+@import url("./__overlay/img-gallery__overlay.css");
+@import url("./__photos-container/img-gallery__photos-container.css");
+@import url("./__fullsize-photo-container/img-gallery__fullsize-photo-container.css");
+@import url("./__fullsize-photo/img-gallery__fullsize-photo.css");
+@import url("./__miniatures-photos-container/img-gallery__miniatures-photos-container.css");
+@import url("./__miniature-photo-btn/img-gallery__miniature-photo-btn.css");
+@import url("./__miniature-photo/img-gallery__miniature-photo.css");
+@import url("./__miniature-photo-name/img-gallery__miniature-photo-name.css");
+@import url("./__exit-btn/img-gallery__exit-btn.css");
+
+:root {
+  --root-of-two: 1.4142;
+  --icon-stripes-thickness: 2px;
+}
+
+.img-gallery {
+  height: 100%;
+}
