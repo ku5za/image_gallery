@@ -1,0 +1,10 @@
+@import url("./_leaning_forwards/navigation-btn__stripe_leaning_forwards.css");
+@import url("./_leaning_backwards/navigation-btn__stripe_leaning_backwards.css");
+
+.navigation-btn__stripe {
+  display: block;
+  background-color: white;
+  position: absolute;
+  height: calc(100% * var(--root-of-two));
+  width: var(--icon-stripes-thickness);
+}

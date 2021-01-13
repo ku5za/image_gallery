@@ -1,0 +1,10 @@
+@import url("./__stripe-wrapper/navigation-btn__stripe-wrapper.css");
+@import url("./__stripe/navigation-btn__stripe.css");
+
+.navigation-btn {
+  border: none;
+  background-color: black;
+  position: relative;
+
+  padding: 10px 15px;
+}
