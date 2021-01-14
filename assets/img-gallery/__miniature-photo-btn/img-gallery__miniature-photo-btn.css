@@ -1,3 +1,5 @@
+@import url("./_display_none/img-gallery__miniature-photo-btn_display_none.css");
+
 .img-gallery__miniature-photo-btn {
   border: 1px solid RGBA(0, 0, 0, 0);
   background: none;
