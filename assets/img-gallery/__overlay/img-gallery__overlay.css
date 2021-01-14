@@ -1,3 +1,5 @@
+@import url("./_displayed_none/img-gallery__overlay_displayed_none.css");
+
 .img-gallery__overlay {
   position: absolute;
   left: 0;
