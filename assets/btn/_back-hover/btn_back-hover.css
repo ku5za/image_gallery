@@ -4,6 +4,7 @@
 
 .btn_back-hover::after {
   content: "";
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -16,6 +17,6 @@
 }
 
 .btn_back-hover:hover::after {
-  top: 5px;
-  left: 5px;
+  top: 7px;
+  left: 7px;
 }
