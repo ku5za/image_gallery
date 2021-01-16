@@ -1,3 +1,4 @@
+import { MiniaturePhotoButton } from "../miniature-photo-btn/MiniaturePhotoBtn.js";
 import { IElementCreator } from "./interfaces/IElementCreator.js";
 
 export class ImgGallery extends IElementCreator {
@@ -22,7 +23,7 @@ export class ImgGallery extends IElementCreator {
   set isDisplayed(isDisplayed) {
     if (typeof isDisplayed != `boolean`) {
       throw new Error(
-        `Value passed to "isDisplayed" property must be of tyle "boolean".`
+        `Value passed to "isDisplayed" property must be of type "boolean".`
       );
     }
     if (isDisplayed === true) {
@@ -35,14 +36,10 @@ export class ImgGallery extends IElementCreator {
   }
 
   getElement() {
-    const imgGalleryWrapper = document.createElement(`div`);
-    imgGalleryWrapper.classList.add(
-      `img-gallery__overlay`,
-      `flex`,
-      `flex_column`
-    );
+    const rootElement = document.createElement(`div`);
+    rootElement.classList.add(`img-gallery__overlay`, `flex`, `flex_column`);
 
-    imgGalleryWrapper.innerHTML = `
+    rootElement.innerHTML = `
     <button class="img-gallery__exit-btn exit-btn btn">
       <div class="exit-btn__stripe exit-btn__stripe_first"></div>
       <div class="exit-btn__stripe exit-btn__stripe_second"></div>
@@ -86,28 +83,30 @@ export class ImgGallery extends IElementCreator {
     </button>
     `;
 
-    const exitButton = imgGalleryWrapper.querySelector(
-      `.img-gallery__exit-btn`
-    );
-    const fullSizePhotoContainer = imgGalleryWrapper.querySelector(
+    const exitButton = rootElement.querySelector(`.img-gallery__exit-btn`);
+    const fullSizePhotoContainer = rootElement.querySelector(
       `.img-gallery__fullsize-photo-container`
     );
     const fullSizePhotoElement = this._getFullSizePhotoElement(
       `assets/images_db/size_l/size_l_photo2.jpg`,
       `First loaded photo.`
     );
-    const miniaturesPhotosContainer = imgGalleryWrapper.querySelector(
+    const miniaturesPhotosContainer = rootElement.querySelector(
       `.img-gallery__miniatures-photos-container`
     );
-    const miniaturePhotoElement = this._getMiniaturePhotoElement(
-      `assets/images_db/size_s/size_s_photo2.jpg`
+
+    const miniaturePhoto = new MiniaturePhotoButton(
+      `assets/images_db/size_s/size_s_photo2.jpg`,
+      `size_s_photo2.jpg`
     );
+
+    const miniaturePhotoElement = miniaturePhoto.element;
 
     this._addExitButtonFunctionality(exitButton);
     fullSizePhotoContainer.appendChild(fullSizePhotoElement);
     miniaturesPhotosContainer.appendChild(miniaturePhotoElement);
 
-    return imgGalleryWrapper;
+    return rootElement;
   }
 
   _addExitButtonFunctionality(exitButtonElement) {
@@ -123,30 +122,5 @@ export class ImgGallery extends IElementCreator {
     fullSizePhotoElement.alt = alt;
 
     return fullSizePhotoElement;
-  }
-
-  _getMiniaturePhotoElement(
-    miniaturePhotoURL,
-    alt = `Miniature of gallery photo`
-  ) {
-    const miniaturePhotoElement = document.createElement(`button`);
-    miniaturePhotoElement.classList.add(`img-gallery__miniature-photo-btn`);
-
-    miniaturePhotoElement.innerHTML = `
-    <img
-      class="img-gallery__miniature-photo"
-    />
-    <span class="img-gallery__miniature-photo-name">
-      size_s_photo1.jpg
-    </span>
-    `;
-
-    const imageElement = miniaturePhotoElement.querySelector(
-      `.img-gallery__miniature-photo`
-    );
-    imageElement.src = miniaturePhotoURL;
-    imageElement.alt = alt;
-
-    return miniaturePhotoElement;
   }
 }

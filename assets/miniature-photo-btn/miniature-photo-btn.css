@@ -1,0 +1,15 @@
+@import url("./__photo/miniature-photo-btn__photo.css");
+@import url("./__photo-name/miniature-photo-btn__photo-name.css");
+@import url("./_display_none/miniature-photo-btn_display_none.css");
+
+.miniature-photo-btn {
+  border: 1px solid RGBA(0, 0, 0, 0);
+  background: none;
+  cursor: pointer;
+
+  transition: border 0.1s ease-in-out;
+}
+
+.miniature-photo-btn:hover {
+  border: 1px solid RGBA(255, 255, 255, 0.5);
+}
