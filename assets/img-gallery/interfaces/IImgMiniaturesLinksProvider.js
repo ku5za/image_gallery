@@ -1,4 +1,4 @@
-class IImgMiniaturesLinksProvider {
+export class IImgMiniaturesLinksProvider {
   constructor() {
     if (this.constructor === IImgMiniaturesLinksProvider) {
       throw new Error(`Interfaces can't be instantiated.`);

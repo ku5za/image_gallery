@@ -1,4 +1,4 @@
-class IImgFullsizeLinksProvider {
+export class IImgFullsizeLinksProvider {
   constructor() {
     if (this.prototype === IImgFullsizeLinksProvider) {
       throw new Error(`Interfaces can't be instantiated.`);
