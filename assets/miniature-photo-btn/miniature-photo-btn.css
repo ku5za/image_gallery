@@ -9,6 +9,7 @@
   cursor: pointer;
   max-height: 100%;
   max-width: 200px;
+  outline: none;
 
   transition: border 0.1s ease-in-out;
 }
