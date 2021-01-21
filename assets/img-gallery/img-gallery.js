@@ -1,16 +1,16 @@
 import { MiniaturePhotoButton } from "../miniature-photo-btn/MiniaturePhotoBtn.js";
 import { IElementCreator } from "./interfaces/IElementCreator.js";
-import { IImgMiniaturesLinksProvider } from "./interfaces/IImgMiniaturesLinksProvider.js";
-import { IImgMiniaturesToFullsizeImgMatcher } from "./interfaces/IImgMiniaturesToFullsizeImgMatcher.js";
+import { IImgMiniaturesUriProvider } from "./interfaces/IImgMiniaturesUriProvider.js";
+import { IImgMiniaturesToFullsizeMatcher } from "./interfaces/IImgMiniaturesToFullsizeMatcher.js";
 
 export class ImgGallery extends IElementCreator {
   /**
-   * @param {IImgMiniaturesLinksProvider} IImgMiniaturesLinksProvider
-   * @param {IImgMiniaturesToFullsizeImgMatcher} IImgMiniaturesToFullsizeImgMatcher
+   * @param {IImgMiniaturesUriProvider} IImgMiniaturesUriProvider
+   * @param {IImgMiniaturesToFullsizeMatcher} IImgMiniaturesToFullsizeImgMatcher
    */
-  constructor(IImgMiniaturesLinksProvider, IImgMiniaturesToFullsizeImgMatcher) {
+  constructor(IImgMiniaturesUriProvider, IImgMiniaturesToFullsizeImgMatcher) {
     super();
-    this._itsMiniaturesLinksProvider = IImgMiniaturesLinksProvider;
+    this._itsMiniaturesUriProvider = IImgMiniaturesUriProvider;
     this._itsMiniaturesToFullsizeMatcher = IImgMiniaturesToFullsizeImgMatcher;
     this._itsMiniaturesArray = this._getMiniaturesElements();
     this._itsElement = this.getElement();
@@ -32,11 +32,7 @@ export class ImgGallery extends IElementCreator {
         `Value passed to "isDisplayed" property must be of type "boolean".`
       );
     }
-    if (isDisplayed === true) {
-      this._itsElement.classList.remove("img-gallery__overlay_displayed_none");
-    } else {
-      this._itsElement.classList.add("img-gallery__overlay_displayed_none");
-    }
+    this._changeItsElementDisplay(isDisplayed);
 
     this._isDisplayed = isDisplayed;
   }
@@ -47,30 +43,44 @@ export class ImgGallery extends IElementCreator {
 
   set currentDisplayedPhotoIndex(index) {
     if (typeof index != `number`) {
-      throw new Error(`Value passed to "currentDisplaying"`);
+      throw new Error(
+        `Value passed to "currentDisplaying" property must be of type "number"`
+      );
     }
-    let currentDisplayedPhotoIndex = 0;
+    this._currentDisplayedPhotoIndex = 0;
     if (index > 0 && index < this._itsMiniaturesArray.length) {
-      currentDisplayedPhotoIndex = index;
+      this._currentDisplayedPhotoIndex = index;
     }
 
+    this._unmarkCurrentMarkedMiniature();
+    this._markMiniatureOfCurrentDisplayedPhoto();
+    this._updateCurrentDisplayedFullsizePhoto();
+  }
+
+  _unmarkCurrentMarkedMiniature() {
     const currentMarkedMiniature = this._itsElement.querySelector(
       `.miniature-photo-btn_mark_current`
     );
     if (currentMarkedMiniature) {
       this._removeMiniatureElementCurrentDisplayingMark(currentMarkedMiniature);
     }
+  }
 
+  _markMiniatureOfCurrentDisplayedPhoto() {
     const miniatureToMark = this._itsMiniaturesArray[
-      currentDisplayedPhotoIndex
+      this._currentDisplayedPhotoIndex
     ];
     this._markMiniatureElementAsCurrentDisplaying(miniatureToMark.element);
-    const fullSizePhotoLink = this._getFullsizePhotoSrcFromMiniatureElement(
+  }
+
+  _updateCurrentDisplayedFullsizePhoto() {
+    const miniatureToMark = this._itsMiniaturesArray[
+      this._currentDisplayedPhotoIndex
+    ];
+    const fullSizePhotoUri = this._getFullsizePhotoUriFromMiniatureElement(
       miniatureToMark.element
     );
-    this._showFullSizePhotoFrom(fullSizePhotoLink);
-
-    this._currentDisplayedPhotoIndex = currentDisplayedPhotoIndex;
+    this._showFullSizePhotoFrom(fullSizePhotoUri);
   }
 
   getElement() {
@@ -83,61 +93,65 @@ export class ImgGallery extends IElementCreator {
       <div class="exit-btn__stripe exit-btn__stripe_second"></div>
     </button>
     <div
-      class="img-gallery flex flex_items_aligned_center flex_content_justified_center"
+    class="img-gallery flex flex_items_aligned_center flex_content_justified_center"
     >
-      <button class="btn navigation-btn img-gallery__previous-photo-btn">
-        <div class="navigation-btn__stripe-wrapper">
-          <div
-            class="navigation-btn__stripe navigation-btn__stripe_leaning_forwards"
-          ></div>
-        </div>
-        <div class="navigation-btn__stripe-wrapper">
-          <div
-            class="navigation-btn__stripe navigation-btn__stripe_leaning_backwards"
-          ></div>
-        </div>
-      </button>
-      <div
-        class="img-gallery__photos-container flex flex_column flex_items_aligned_center"
-      >
-        <div class="img-gallery__fullsize-photo-container">
-        </div>
-        <div
-          class="img-gallery__miniatures-photos-container flex flex_wrap flex_content_justified_center"
-        >
-        </div>
-      </div>
-    <button class="btn navigation-btn img-gallery__next-photo-btn">
+    <button class="btn navigation-btn img-gallery__previous-photo-btn">
       <div class="navigation-btn__stripe-wrapper">
         <div
-          class="navigation-btn__stripe navigation-btn__stripe_leaning_backwards"
+        class="navigation-btn__stripe navigation-btn__stripe_leaning_forwards"
         ></div>
       </div>
       <div class="navigation-btn__stripe-wrapper">
         <div
-          class="navigation-btn__stripe navigation-btn__stripe_leaning_forwards"
+        class="navigation-btn__stripe navigation-btn__stripe_leaning_backwards"
+        ></div>
+      </div>
+    </button>
+    <div
+    class="img-gallery__photos-container flex flex_column flex_items_aligned_center"
+    >
+    <div class="img-gallery__fullsize-photo-container">
+    </div>
+    <div
+    class="img-gallery__miniatures-photos-container flex flex_wrap flex_content_justified_center"
+    >
+    </div>
+    </div>
+    <button class="btn navigation-btn img-gallery__next-photo-btn">
+      <div class="navigation-btn__stripe-wrapper">
+        <div
+        class="navigation-btn__stripe navigation-btn__stripe_leaning_backwards"
+        ></div>
+      </div>
+      <div class="navigation-btn__stripe-wrapper">
+        <div
+        class="navigation-btn__stripe navigation-btn__stripe_leaning_forwards"
         ></div>
       </div>
     </button>
     `;
 
-    const exitButton = rootElement.querySelector(`.img-gallery__exit-btn`);
-    const fullSizePhotoContainer = rootElement.querySelector(
-      `.img-gallery__fullsize-photo-container`
-    );
-    const fullSizePhotoElement = this._getFullSizePhotoElement();
+    this._appendLoadedPhotos(rootElement);
+    this._addRootElementInteractions(rootElement);
+
+    return rootElement;
+  }
+
+  _appendLoadedPhotos(rootElement) {
+    this._appendMiniaturesToRootElement(rootElement);
+    this._appendFullsizePhotoToRootElement(rootElement);
+  }
+
+  _addRootElementInteractions(rootElement) {
+    this._addExitButtonFunctionality(rootElement);
+    this._addNextPhotoButtonFunctionality(rootElement);
+    this._addPreviousPhotoButtonFunctionality(rootElement);
+  }
+
+  _appendMiniaturesToRootElement(rootElement) {
     const miniaturesPhotosContainer = rootElement.querySelector(
       `.img-gallery__miniatures-photos-container`
     );
-    const previousPhotoButton = rootElement.querySelector(
-      `.img-gallery__previous-photo-btn`
-    );
-    const nextPhotoButton = rootElement.querySelector(
-      `.img-gallery__next-photo-btn`
-    );
-
-    this._addNextPhotoButtonFunctionality(nextPhotoButton);
-    this._addPreviousPhotoButtonFunctionality(previousPhotoButton);
 
     this._itsMiniaturesArray.forEach((miniaturePhoto, itsIndex) => {
       this._addMiniaturePhotoButtonFunctionality(
@@ -146,28 +160,39 @@ export class ImgGallery extends IElementCreator {
       );
       miniaturesPhotosContainer.appendChild(miniaturePhoto.element);
     });
-
-    this._addExitButtonFunctionality(exitButton);
-    fullSizePhotoContainer.appendChild(fullSizePhotoElement);
-
-    return rootElement;
   }
 
-  _addExitButtonFunctionality(exitButtonElement) {
-    exitButtonElement.addEventListener(`click`, () => {
+  _appendFullsizePhotoToRootElement(rootElement) {
+    const fullSizePhotoContainer = rootElement.querySelector(
+      `.img-gallery__fullsize-photo-container`
+    );
+    const fullSizePhotoElement = this._getFullSizePhotoElement();
+    fullSizePhotoContainer.appendChild(fullSizePhotoElement);
+  }
+
+  _addExitButtonFunctionality(rootElement) {
+    const exitButton = rootElement.querySelector(`.img-gallery__exit-btn`);
+    exitButton.addEventListener(`click`, () => {
       this.isDisplayed = false;
     });
   }
 
-  _addPreviousPhotoButtonFunctionality(previousButton) {
-    previousButton.addEventListener(`click`, () => {
+  _addPreviousPhotoButtonFunctionality(rootElement) {
+    const previousPhotoButton = rootElement.querySelector(
+      `.img-gallery__previous-photo-btn`
+    );
+    previousPhotoButton.addEventListener(`click`, () => {
       if (this.currentDisplayedPhotoIndex > 0) {
         this.currentDisplayedPhotoIndex--;
       }
     });
   }
-  _addNextPhotoButtonFunctionality(nextButton) {
-    nextButton.addEventListener(`click`, () => {
+
+  _addNextPhotoButtonFunctionality(rootElement) {
+    const nextPhotoButton = rootElement.querySelector(
+      `.img-gallery__next-photo-btn`
+    );
+    nextPhotoButton.addEventListener(`click`, () => {
       const maxIndex = this._itsMiniaturesArray.length - 1;
       if (this.currentDisplayedPhotoIndex < maxIndex) {
         this.currentDisplayedPhotoIndex++;
@@ -192,14 +217,22 @@ export class ImgGallery extends IElementCreator {
 
   _getMiniaturesElements() {
     let miniaturesElements = [];
-    const miniaturesLinks = this._itsMiniaturesLinksProvider.getImgMiniaturesLinks();
-    for (const miniatureLink of miniaturesLinks) {
-      const miniatureFileName = this._getMiniatureFileName(miniatureLink);
+    const miniaturesUri = this._itsMiniaturesUriProvider.getImgMiniaturesUri();
+    for (const miniatureUri of miniaturesUri) {
+      const miniatureFileName = this._getMiniatureFileName(miniatureUri);
       miniaturesElements.push(
-        new MiniaturePhotoButton(miniatureLink, miniatureFileName)
+        new MiniaturePhotoButton(miniatureUri, miniatureFileName)
       );
     }
     return miniaturesElements;
+  }
+
+  _changeItsElementDisplay(isDisplayed) {
+    if (isDisplayed === true) {
+      this._itsElement.classList.remove("img-gallery__overlay_displayed_none");
+    } else {
+      this._itsElement.classList.add("img-gallery__overlay_displayed_none");
+    }
   }
 
   _markMiniatureElementAsCurrentDisplaying(miniaturePhotoButtonElement) {
@@ -215,20 +248,20 @@ export class ImgGallery extends IElementCreator {
   }
 
   /**
-   * @param {string} miniatureLink
+   * @param {string} miniatureUri
    */
-  _getMiniatureFileName(miniatureLink) {
-    const nameSubstringStartIndex = miniatureLink.lastIndexOf("/") + 1;
-    return miniatureLink.substring(nameSubstringStartIndex);
+  _getMiniatureFileName(miniatureUri) {
+    const nameSubstringStartIndex = miniatureUri.lastIndexOf("/") + 1;
+    return miniatureUri.substring(nameSubstringStartIndex);
   }
 
-  _getFullsizePhotoSrcFromMiniatureElement(miniatureButtonElement) {
+  _getFullsizePhotoUriFromMiniatureElement(miniatureButtonElement) {
     const miniaturePhotoElement = miniatureButtonElement.querySelector(
       `.miniature-photo-btn__photo`
     );
-    const miniaturePhotoSrc = miniaturePhotoElement.src;
-    return this._itsMiniaturesToFullsizeMatcher.getFullsizeImgLink(
-      miniaturePhotoSrc
+    const miniaturePhotoUri = miniaturePhotoElement.src;
+    return this._itsMiniaturesToFullsizeMatcher.getFullsizeImgUri(
+      miniaturePhotoUri
     );
   }
 
