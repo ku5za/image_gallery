@@ -2,6 +2,7 @@ import { MiniaturePhotoButton } from "../miniature-photo-btn/MiniaturePhotoBtn.j
 import { IElementCreator } from "./interfaces/IElementCreator.js";
 import { IImgMiniaturesUriProvider } from "./interfaces/IImgMiniaturesUriProvider.js";
 import { IImgMiniaturesToFullsizeMatcher } from "./interfaces/IImgMiniaturesToFullsizeMatcher.js";
+import { MiniaturesPhotosContainer } from "./__miniatures-photos-container/MiniaturesPhotosContainer.js";
 
 export class ImgGallery extends IElementCreator {
   /**
@@ -12,8 +13,21 @@ export class ImgGallery extends IElementCreator {
     super();
     this._itsMiniaturesUriProvider = IImgMiniaturesUriProvider;
     this._itsMiniaturesToFullsizeMatcher = IImgMiniaturesToFullsizeImgMatcher;
-    this._itsMiniaturesArray = this._getMiniaturesElements();
+
     this._itsElement = this.getElement();
+
+    const miniaturesContainerElement = this._itsElement.querySelector(
+      `.img-gallery__miniatures-photos-container`
+    );
+    this._itsMiniaturesContainer = new MiniaturesPhotosContainer(
+      miniaturesContainerElement,
+      IImgMiniaturesUriProvider
+    );
+    this._itsMiniaturesContainer.addEventListener(
+      `markedMiniatureChanged`,
+      () => this._updateCurrentDisplayedFullsizePhoto()
+    );
+
     this.isDisplayed = false;
     this.currentDisplayedPhotoIndex = 0;
   }
@@ -28,7 +42,7 @@ export class ImgGallery extends IElementCreator {
 
   set isDisplayed(isDisplayed) {
     if (typeof isDisplayed != `boolean`) {
-      throw new Error(
+      throw new TypeError(
         `Value passed to "isDisplayed" property must be of type "boolean".`
       );
     }
@@ -38,47 +52,31 @@ export class ImgGallery extends IElementCreator {
   }
 
   get currentDisplayedPhotoIndex() {
-    return this._currentDisplayedPhotoIndex;
+    return this._itsMiniaturesContainer.currentDisplayedPhotoIndex;
   }
 
   set currentDisplayedPhotoIndex(index) {
     if (typeof index != `number`) {
-      throw new Error(
+      throw new TypeError(
         `Value passed to "currentDisplaying" property must be of type "number"`
       );
     }
-    this._currentDisplayedPhotoIndex = 0;
-    if (index > 0 && index < this._itsMiniaturesArray.length) {
-      this._currentDisplayedPhotoIndex = index;
+
+    this._itsMiniaturesContainer.currentDisplayedPhotoIndex = 0;
+    if (
+      index > 0 &&
+      index < this._itsMiniaturesContainer.miniaturesArray.length
+    ) {
+      this._itsMiniaturesContainer.currentDisplayedPhotoIndex = index;
     }
-
-    this._unmarkCurrentMarkedMiniature();
-    this._markMiniatureOfCurrentDisplayedPhoto();
-    this._updateCurrentDisplayedFullsizePhoto();
-  }
-
-  _unmarkCurrentMarkedMiniature() {
-    const currentMarkedMiniature = this._itsElement.querySelector(
-      `.miniature-photo-btn_mark_current`
-    );
-    if (currentMarkedMiniature) {
-      this._removeMiniatureElementCurrentDisplayingMark(currentMarkedMiniature);
-    }
-  }
-
-  _markMiniatureOfCurrentDisplayedPhoto() {
-    const miniatureToMark = this._itsMiniaturesArray[
-      this._currentDisplayedPhotoIndex
-    ];
-    this._markMiniatureElementAsCurrentDisplaying(miniatureToMark.element);
   }
 
   _updateCurrentDisplayedFullsizePhoto() {
-    const miniatureToMark = this._itsMiniaturesArray[
-      this._currentDisplayedPhotoIndex
+    const currentMarkedMiniature = this._itsMiniaturesContainer.miniaturesArray[
+      this._itsMiniaturesContainer.currentDisplayedPhotoIndex
     ];
     const fullSizePhotoUri = this._getFullsizePhotoUriFromMiniatureElement(
-      miniatureToMark.element
+      currentMarkedMiniature.element
     );
     this._showFullSizePhotoFrom(fullSizePhotoUri);
   }
@@ -131,35 +129,16 @@ export class ImgGallery extends IElementCreator {
     </button>
     `;
 
-    this._appendLoadedPhotos(rootElement);
+    this._appendFullsizePhotoToRootElement(rootElement);
     this._addRootElementInteractions(rootElement);
 
     return rootElement;
-  }
-
-  _appendLoadedPhotos(rootElement) {
-    this._appendMiniaturesToRootElement(rootElement);
-    this._appendFullsizePhotoToRootElement(rootElement);
   }
 
   _addRootElementInteractions(rootElement) {
     this._addExitButtonFunctionality(rootElement);
     this._addNextPhotoButtonFunctionality(rootElement);
     this._addPreviousPhotoButtonFunctionality(rootElement);
-  }
-
-  _appendMiniaturesToRootElement(rootElement) {
-    const miniaturesPhotosContainer = rootElement.querySelector(
-      `.img-gallery__miniatures-photos-container`
-    );
-
-    this._itsMiniaturesArray.forEach((miniaturePhoto, itsIndex) => {
-      this._addMiniaturePhotoButtonFunctionality(
-        miniaturePhoto.element,
-        itsIndex
-      );
-      miniaturesPhotosContainer.appendChild(miniaturePhoto.element);
-    });
   }
 
   _appendFullsizePhotoToRootElement(rootElement) {
@@ -193,16 +172,10 @@ export class ImgGallery extends IElementCreator {
       `.img-gallery__next-photo-btn`
     );
     nextPhotoButton.addEventListener(`click`, () => {
-      const maxIndex = this._itsMiniaturesArray.length - 1;
+      const maxIndex = this._itsMiniaturesContainer.miniaturesArray.length - 1;
       if (this.currentDisplayedPhotoIndex < maxIndex) {
         this.currentDisplayedPhotoIndex++;
       }
-    });
-  }
-
-  _addMiniaturePhotoButtonFunctionality(miniaturePhotoButtonElement, itsIndex) {
-    miniaturePhotoButtonElement.addEventListener(`click`, () => {
-      this.currentDisplayedPhotoIndex = itsIndex;
     });
   }
 
@@ -215,44 +188,12 @@ export class ImgGallery extends IElementCreator {
     return fullSizePhotoElement;
   }
 
-  _getMiniaturesElements() {
-    let miniaturesElements = [];
-    const miniaturesUri = this._itsMiniaturesUriProvider.getImgMiniaturesUri();
-    for (const miniatureUri of miniaturesUri) {
-      const miniatureFileName = this._getMiniatureFileName(miniatureUri);
-      miniaturesElements.push(
-        new MiniaturePhotoButton(miniatureUri, miniatureFileName)
-      );
-    }
-    return miniaturesElements;
-  }
-
   _changeItsElementDisplay(isDisplayed) {
     if (isDisplayed === true) {
       this._itsElement.classList.remove("img-gallery__overlay_displayed_none");
     } else {
       this._itsElement.classList.add("img-gallery__overlay_displayed_none");
     }
-  }
-
-  _markMiniatureElementAsCurrentDisplaying(miniaturePhotoButtonElement) {
-    miniaturePhotoButtonElement.classList.add(
-      `miniature-photo-btn_mark_current`
-    );
-  }
-
-  _removeMiniatureElementCurrentDisplayingMark(miniaturePhotoButtonElement) {
-    miniaturePhotoButtonElement.classList.remove(
-      `miniature-photo-btn_mark_current`
-    );
-  }
-
-  /**
-   * @param {string} miniatureUri
-   */
-  _getMiniatureFileName(miniatureUri) {
-    const nameSubstringStartIndex = miniatureUri.lastIndexOf("/") + 1;
-    return miniatureUri.substring(nameSubstringStartIndex);
   }
 
   _getFullsizePhotoUriFromMiniatureElement(miniatureButtonElement) {
@@ -266,13 +207,13 @@ export class ImgGallery extends IElementCreator {
   }
 
   _showFullSizePhotoFrom(
-    fullSizePhotoSrc,
+    fullSizePhotoUri,
     fullSizePhotoAlt = `Gallery fullsize photo.`
   ) {
     const fullSizePhotoElement = this._itsElement.querySelector(
       `.img-gallery__fullsize-photo`
     );
-    fullSizePhotoElement.src = fullSizePhotoSrc;
+    fullSizePhotoElement.src = fullSizePhotoUri;
     fullSizePhotoElement.alt = fullSizePhotoAlt;
   }
 }
