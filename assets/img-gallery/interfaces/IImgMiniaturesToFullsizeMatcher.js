@@ -1,11 +1,11 @@
-export class IImgMiniaturesToFullsizeImgMatcher {
+export class IImgMiniaturesToFullsizeMatcher {
   constructor() {
-    if (this.constructor === IImgMiniaturesToFullsizeImgMatcher) {
+    if (this.constructor === IImgMiniaturesToFullsizeMatcher) {
       throw new Error(`Interfaces can't be instantaited.`);
     }
   }
 
-  getFullsizeImgLink(miniaturePhotoLink) {
+  getFullsizeImgUri(miniaturePhotoUri) {
     throw new Error(`Mehtod "getFullsizeImgLink" not implemented.`);
   }
 }
