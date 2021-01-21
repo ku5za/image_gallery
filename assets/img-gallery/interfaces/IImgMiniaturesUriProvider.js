@@ -1,11 +1,11 @@
-export class IImgMiniaturesLinksProvider {
+export class IImgMiniaturesUriProvider {
   constructor() {
-    if (this.constructor === IImgMiniaturesLinksProvider) {
+    if (this.constructor === IImgMiniaturesUriProvider) {
       throw new Error(`Interfaces can't be instantiated.`);
     }
   }
 
-  getImgMiniaturesLinks() {
+  getImgMiniaturesUri() {
     throw new Error(`getImgMiniaturesLinks() method is not implemented.`);
   }
 }
