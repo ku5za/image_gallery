@@ -29,7 +29,7 @@ export class ImgGallery extends IElementCreator {
     );
 
     this.isDisplayed = false;
-    this.currentDisplayedPhotoIndex = 0;
+    this._itsMiniaturesContainer.currentDisplayedPhotoIndex = 0;
   }
 
   get element() {
@@ -49,26 +49,6 @@ export class ImgGallery extends IElementCreator {
     this._changeItsElementDisplay(isDisplayed);
 
     this._isDisplayed = isDisplayed;
-  }
-
-  get currentDisplayedPhotoIndex() {
-    return this._itsMiniaturesContainer.currentDisplayedPhotoIndex;
-  }
-
-  set currentDisplayedPhotoIndex(index) {
-    if (typeof index != `number`) {
-      throw new TypeError(
-        `Value passed to "currentDisplaying" property must be of type "number"`
-      );
-    }
-
-    this._itsMiniaturesContainer.currentDisplayedPhotoIndex = 0;
-    if (
-      index > 0 &&
-      index < this._itsMiniaturesContainer.miniaturesArray.length
-    ) {
-      this._itsMiniaturesContainer.currentDisplayedPhotoIndex = index;
-    }
   }
 
   _updateCurrentDisplayedFullsizePhoto() {
@@ -108,7 +88,7 @@ export class ImgGallery extends IElementCreator {
     <div
     class="img-gallery__photos-container flex flex_column flex_items_aligned_center"
     >
-    <div class="img-gallery__fullsize-photo-container">
+    <div class="img-gallery__fullsize-photo-container flex flex-column flex-items_aligned_center">
     </div>
     <div
     class="img-gallery__miniatures-photos-container flex flex_wrap flex_content_justified_center"
@@ -161,8 +141,8 @@ export class ImgGallery extends IElementCreator {
       `.img-gallery__previous-photo-btn`
     );
     previousPhotoButton.addEventListener(`click`, () => {
-      if (this.currentDisplayedPhotoIndex > 0) {
-        this.currentDisplayedPhotoIndex--;
+      if (this._itsMiniaturesContainer.currentDisplayedPhotoIndex > 0) {
+        this._itsMiniaturesContainer.currentDisplayedPhotoIndex--;
       }
     });
   }
@@ -173,8 +153,8 @@ export class ImgGallery extends IElementCreator {
     );
     nextPhotoButton.addEventListener(`click`, () => {
       const maxIndex = this._itsMiniaturesContainer.miniaturesArray.length - 1;
-      if (this.currentDisplayedPhotoIndex < maxIndex) {
-        this.currentDisplayedPhotoIndex++;
+      if (this._itsMiniaturesContainer.currentDisplayedPhotoIndex < maxIndex) {
+        this._itsMiniaturesContainer.currentDisplayedPhotoIndex++;
       }
     });
   }
