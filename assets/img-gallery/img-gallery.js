@@ -71,9 +71,9 @@ export class ImgGallery extends IElementCreator {
       <div class="exit-btn__stripe exit-btn__stripe_second"></div>
     </button>
     <div
-    class="img-gallery flex flex_items_aligned_center flex_content_justified_center"
+    class="img-gallery flex flex_items_aligned_center flex_content_justified_center flex_column_md"
     >
-    <button class="btn navigation-btn img-gallery__previous-photo-btn">
+    <button class="btn navigation-btn img-gallery__previous-photo-btn img-gallery__navigation-btn_hide_md">
       <div class="navigation-btn__stripe-wrapper">
         <div
         class="navigation-btn__stripe navigation-btn__stripe_leaning_forwards"
@@ -95,18 +95,32 @@ export class ImgGallery extends IElementCreator {
     >
     </div>
     </div>
-    <button class="btn navigation-btn img-gallery__next-photo-btn">
+    <div class="img-gallery__md-navigation-btns flex flex_content_justified_center flex_items_aligned_center">
+    <button class="btn navigation-btn img-gallery__previous-photo-btn img-gallery__navigation-btn_display_md">
+    <div class="navigation-btn__stripe-wrapper">
+      <div
+      class="navigation-btn__stripe navigation-btn__stripe_leaning_forwards"
+      ></div>
+    </div>
       <div class="navigation-btn__stripe-wrapper">
         <div
         class="navigation-btn__stripe navigation-btn__stripe_leaning_backwards"
         ></div>
       </div>
-      <div class="navigation-btn__stripe-wrapper">
-        <div
-        class="navigation-btn__stripe navigation-btn__stripe_leaning_forwards"
-        ></div>
-      </div>
     </button>
+    <button class="btn navigation-btn img-gallery__next-photo-btn">
+    <div class="navigation-btn__stripe-wrapper">
+    <div
+    class="navigation-btn__stripe navigation-btn__stripe_leaning_backwards"
+    ></div>
+    </div>
+    <div class="navigation-btn__stripe-wrapper">
+      <div
+      class="navigation-btn__stripe navigation-btn__stripe_leaning_forwards"
+      ></div>
+    </div>
+    </button>
+    </div>
     `;
 
     this._appendFullsizePhotoToRootElement(rootElement);
@@ -118,7 +132,7 @@ export class ImgGallery extends IElementCreator {
   _addRootElementInteractions(rootElement) {
     this._addExitButtonFunctionality(rootElement);
     this._addNextPhotoButtonFunctionality(rootElement);
-    this._addPreviousPhotoButtonFunctionality(rootElement);
+    this._addPreviousPhotoButtonsFunctionality(rootElement);
   }
 
   _appendFullsizePhotoToRootElement(rootElement) {
@@ -136,14 +150,16 @@ export class ImgGallery extends IElementCreator {
     });
   }
 
-  _addPreviousPhotoButtonFunctionality(rootElement) {
-    const previousPhotoButton = rootElement.querySelector(
+  _addPreviousPhotoButtonsFunctionality(rootElement) {
+    const previousPhotoButtons = rootElement.querySelectorAll(
       `.img-gallery__previous-photo-btn`
     );
-    previousPhotoButton.addEventListener(`click`, () => {
-      if (this._itsMiniaturesContainer.currentDisplayedPhotoIndex > 0) {
-        this._itsMiniaturesContainer.currentDisplayedPhotoIndex--;
-      }
+    previousPhotoButtons.forEach((button) => {
+      button.addEventListener(`click`, () => {
+        if (this._itsMiniaturesContainer.currentDisplayedPhotoIndex > 0) {
+          this._itsMiniaturesContainer.currentDisplayedPhotoIndex--;
+        }
+      });
     });
   }
 
