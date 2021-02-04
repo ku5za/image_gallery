@@ -1,9 +1,15 @@
+@import url("../exit-btn/exit-btn.css");
+@import url("../navigation-btn/navigation-btn.css");
+@import url("../flex/flex.css");
+@import url("../miniature-photo-btn/miniature-photo-btn.css");
 @import url("./__overlay/img-gallery__overlay.css");
 @import url("./__photos-container/img-gallery__photos-container.css");
 @import url("./__fullsize-photo-container/img-gallery__fullsize-photo-container.css");
 @import url("./__fullsize-photo/img-gallery__fullsize-photo.css");
 @import url("./__miniatures-photos-container/img-gallery__miniatures-photos-container.css");
 @import url("./__exit-btn/img-gallery__exit-btn.css");
+@import url("./__navigation-btn/img-gallery__navigation-btn.css");
+@import url("./__md-navigation-btns/img-gallery__md-navigation-btns.css");
 
 :root {
   --root-of-two: 1.4142;
