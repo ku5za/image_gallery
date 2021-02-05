@@ -187,8 +187,10 @@ export class ImgGallery extends IElementCreator {
   _changeItsElementDisplay(isDisplayed) {
     if (isDisplayed === true) {
       this._itsElement.classList.remove("img-gallery__overlay_displayed_none");
+      document.body.classList.add("body_hide_overflow");
     } else {
       this._itsElement.classList.add("img-gallery__overlay_displayed_none");
+      document.body.classList.remove("body_hide_overflow");
     }
   }
 
