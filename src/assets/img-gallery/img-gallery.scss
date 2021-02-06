@@ -1,0 +1,22 @@
+@use "../body/body.scss";
+@use "../exit-btn/exit-btn.scss";
+@use "../navigation-btn/navigation-btn.scss";
+@use "../flex/flex.scss";
+@use "../miniature-photo-btn/miniature-photo-btn.scss";
+@use "./__overlay/img-gallery__overlay.scss";
+@use "./__photos-container/img-gallery__photos-container.scss";
+@use "./__fullsize-photo-container/img-gallery__fullsize-photo-container.scss";
+@use "./__fullsize-photo/img-gallery__fullsize-photo.scss";
+@use "./__miniatures-photos-container/img-gallery__miniatures-photos-container.scss";
+@use "./__exit-btn/img-gallery__exit-btn.scss";
+@use "./__navigation-btn/img-gallery__navigation-btn.scss";
+@use "./__md-navigation-btns/img-gallery__md-navigation-btns.scss";
+
+:root {
+  --root-of-two: 1.4142;
+  --icon-stripes-thickness: 2px;
+}
+
+.img-gallery {
+  height: 100%;
+}

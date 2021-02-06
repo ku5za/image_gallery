@@ -1,0 +1,10 @@
+@use "./_filled/btn_filled.scss";
+@use "./_upper-case/btn_upper-case.scss";
+@use "./_bold-text/btn_bold-text.scss";
+@use "./_back-hover/btn_back-hover.scss";
+
+.btn {
+  padding: 12px 36px;
+  cursor: pointer;
+  border: none;
+}

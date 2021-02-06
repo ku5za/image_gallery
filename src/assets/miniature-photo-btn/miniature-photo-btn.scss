@@ -1,7 +1,7 @@
-@use ("./__photo/miniature-photo-btn__photo.css";
-@use ("./__photo-name/miniature-photo-btn__photo-name.css";
-@use ("./_display_none/miniature-photo-btn_display_none.css";
-@use ("./_mark_current/miniature-photo-btn_mark_current.css";
+@use "./__photo/miniature-photo-btn__photo.scss";
+@use "./__photo-name/miniature-photo-btn__photo-name.scss";
+@use "./_display_none/miniature-photo-btn_display_none.scss";
+@use "./_mark_current/miniature-photo-btn_mark_current.scss";
 
 .miniature-photo-btn {
   border: 1px solid RGBA(0, 0, 0, 0);

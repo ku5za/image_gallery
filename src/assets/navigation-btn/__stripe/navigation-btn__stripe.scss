@@ -1,5 +1,5 @@
-@use ("./_leaning_forwards/navigation-btn__stripe_leaning_forwards.css";
-@use ("./_leaning_backwards/navigation-btn__stripe_leaning_backwards.css";
+@use "./_leaning_forwards/navigation-btn__stripe_leaning_forwards.scss";
+@use "./_leaning_backwards/navigation-btn__stripe_leaning_backwards.scss";
 
 .navigation-btn__stripe {
   display: block;
