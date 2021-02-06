@@ -1,0 +1,23 @@
+{
+  "name": "image_gallery",
+  "version": "1.0.0",
+  "description": "Simple image gallery for displaying fullsize images from collection of miniature ones.",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/ku5za/image_gallery"
+  },
+  "keywords": [
+    "image",
+    "gallery",
+    "vanillajs",
+    "javascript",
+    "css",
+    "html"
+  ],
+  "author": "Jędrzej Kuszewski",
+  "license": "MIT"
+}
