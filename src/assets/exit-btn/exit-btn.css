@@ -1,4 +1,4 @@
-@import url("./__stripe/exit-btn__stripe.css");
+@use ("./__stripe/exit-btn__stripe.css";
 
 .exit-btn {
   background: none;

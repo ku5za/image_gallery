@@ -1,4 +1,4 @@
-@import url("./_md/flex_column_md.css");
+@use ("./_md/flex_column_md.css";
 .flex_column {
   flex-direction: column;
 }

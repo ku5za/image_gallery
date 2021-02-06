@@ -1,0 +1,9 @@
+@use ("./_column/flex_column.css";
+@use ("./_items_aligned_center/flex_items_aligned_center.css";
+@use ("./_content_justified_center/flex_content_justified_center.css";
+@use ("./_content_justified_between/flex_content_justified_between.css";
+@use ("./_wrap/flex_wrap.css";
+
+.flex {
+  display: flex;
+}

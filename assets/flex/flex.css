@@ -1,9 +1,0 @@
-@import url("./_column/flex_column.css");
-@import url("./_items_aligned_center/flex_items_aligned_center.css");
-@import url("./_content_justified_center/flex_content_justified_center.css");
-@import url("./_content_justified_between/flex_content_justified_between.css");
-@import url("./_wrap/flex_wrap.css");
-
-.flex {
-  display: flex;
-}
