@@ -1,2 +1,3 @@
-assets/images_db
+**/images_db
 assets/app.js
+node_modules/
