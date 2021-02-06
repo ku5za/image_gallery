@@ -1,4 +1,7 @@
 **/images_db
 assets/app.js
 node_modules/
+<<<<<<< HEAD
 **/dist
+=======
+>>>>>>> 7e10ee5dd579e08e39554d53052cb04bcfcd3d0e
