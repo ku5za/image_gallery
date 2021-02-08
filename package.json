@@ -4,7 +4,7 @@
   "description": "Simple image gallery for displaying fullsize images from collection of miniature ones.",
   "private": true,
   "scripts": {
-    "build": "npm run sass",
+    "build": "webpack && npm run sass",
     "sass": "sass src:dist --style compressed",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,6 +23,12 @@
   "author": "Jędrzej Kuszewski",
   "license": "MIT",
   "devDependencies": {
-    "sass": "^1.32.6"
+    "@babel/core": "^7.12.13",
+    "@babel/preset-env": "^7.12.13",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "sass": "^1.32.6",
+    "webpack": "^5.21.2",
+    "webpack-cli": "^4.5.0"
   }
 }
