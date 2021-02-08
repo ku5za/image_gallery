@@ -3,5 +3,6 @@ assets/app.js
 node_modules/
 <<<<<<< HEAD
 **/dist
+.vscode/
 =======
 >>>>>>> 7e10ee5dd579e08e39554d53052cb04bcfcd3d0e
