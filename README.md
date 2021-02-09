@@ -51,6 +51,7 @@ W pliku `./src/app.js` znajduje się przykładowy sposób dodania galerii do str
 ## Technologie
 
 Moduł ten korzysta z konfiguracji webpacka do tworzenia statycznych zasobów.
+
 W celu zainstalowania webpacka oraz wykorzystywanych przez niego zależności wymagane jest posiadanie zainstalowanego [node.js](https://nodejs.org) w wersji co namniej 10.13.0
 
 - babel ^7.12.13
