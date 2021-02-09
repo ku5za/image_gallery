@@ -57,3 +57,15 @@ W celu zainstalowania webpacka oraz wykorzystywanych przez niego zależności wy
 - babel ^7.12.13
 - sass ^1.32.6
 - webpack ^5.21.2
+
+## Uwagi
+
+Przykładowa implementacja do działania wykorzystuje folder `images_db` znajdujący się w głównym folderze, zawierający miniatury i zdjęcia w pełnych rozmiarach o następującej strukturze:
+
+```
+images_db
+|-size_l
+|-size_s
+```
+
+Zawarte w nich zdjęcia mają nazwy w formacie `[nazwa_rozmiaru]_[nazwa_zdjęcia].[format]`, np `size_l_photo1.jpg`. W celu przetestowania działania galerii dodaj taką strukturę u siebie oraz dodaj do niej zdjęcia w następującym formacie, lub zaimplemenuj własny sposób dodawania miniatur do galerii oraz reguły znajdowania pasujących do nich zdjęć w pełnych wymiarach.
